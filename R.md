@@ -1,0 +1,88 @@
+README
+================
+
+Red Knot
+--------
+
+The data I will be working with explores a species of shorebird, the Red Knot, and its abundance within Fire Island, New York. These data have been collected through various means, but are somewhat organized as follows: I have 2018 opportunistic sighting data, 2014-2018 Resighting Data, data pulled from surveys conducted 2013-2016, and transect data from 1997-2000. Some of these data have GPS coordinate locations linked to each sighting, and other data only has a “site” location attached to the sighting. All data are compiled into an excel file with multiple sheets (Unknown on how to combine them into one set, or if that is even something I should do…).
+I’d like to ask 3 questions: 1. To what extent are Red Knots using Fire Island as a stopover site, when is the peak migration period, 2. What habitats are Red Knots using most often, or is there a pattern with Red Knot habitat use, 3. If there are any significant changes in Red Knot abundance within Fire Island over the years we have data for. I would like to submit a note to the Northeastern Naturalist after examining the data during this R course.
+
+Week 1: Read in CSV files, veiw data, downloaded packages,and ran basic R commands.
+
+Homework1 Code
+--------------
+
+read csv file in
+================
+
+RedKnot&lt;-read.csv(file="RK\_ShorebirdSurveys.csv",head=TRUE,sep=",")
+
+install packages
+================
+
+install.packages("ggplot2")
+===========================
+
+install.packages("tidyverse")
+=============================
+
+install.packages("dplyr")
+=========================
+
+install.packages("magrittr")
+============================
+
+install.packages("reshape2")
+============================
+
+install.packages("reshape")
+===========================
+
+install.packages("gridExtra")
+=============================
+
+install.packages("knitr")
+=========================
+
+install.packages("officer")
+===========================
+
+library call
+============
+
+library(ggplot2) library(tidyverse) library(dplyr) library(magrittr) library(reshape) library(reshape2) library(gridExtra) library(knitr) library(officer)
+
+view data
+=========
+
+RedKnot
+
+summarize data
+==============
+
+summary(RedKnot)
+
+calculations with data using $ to call out column
+=================================================
+
+RedKnot*U**n**b**a**n**d**e**d*2 &lt; −2 \* (*R**e**d**K**n**o**t*Unbanded)
+
+aggregate / mean of Unbanded Redknots at each subsite (?)
+=========================================================
+
+RedKnot %&gt;% subset(Unbanded &gt; 10) %&gt;% aggregate(. ~ Subsite, ., FUN=mean)
+
+Tried to make a table of all RedKnots seen at Subsites
+======================================================
+
+tab1 &lt;- data.frame(RedKnot*S**u**b**s**i**t**e*, *R**e**d**K**n**o**t*Date, RedKnot*B**a**n**d**e**d*.*U**n**k**n**o**w**n* + *R**e**d**K**n**o**t*Unbanded+RedKnot*U**n**k**n**o**w**n*)*t**a**b*1Total&lt;-1\*(tab1$RedKnot.Banded.Unknown...RedKnot.Unbanded...RedKnot.Unknown)
+
+And wanted to see a summary of it...wonder if it can be plotted too?
+====================================================================
+
+summary(tab1) plot(tab1)
+
+Plot the table of Redknots seen by date but it's not plotted consecutively...I just wanted to play around with it
+=================================================================================================================
+
+plot(RedKnot*D**a**t**e*, *t**a**b*1Total, type = "l", color = "dodgerblue4")
