@@ -18,7 +18,7 @@ I would like to submit a note to the Northeastern Naturalist after examining the
 
 Week 1: Read in CSV files, veiw data, downloaded packages,and ran basic R commands.  
 
-## Homework1 Code
+## Homework 1 Code
 
 #read csv file in
 RedKnot<-read.csv(file="RK_ShorebirdSurveys.csv",head=TRUE,sep=",")

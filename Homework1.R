@@ -47,3 +47,5 @@ plot(tab1)
 
 #Plot the table of Redknots seen by date but it's not plotted consecutively...I just wanted to play around with it
 plot(RedKnot$Date, tab1$Total, type = "l", color = "dodgerblue4")
+
+
