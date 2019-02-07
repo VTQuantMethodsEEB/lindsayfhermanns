@@ -71,6 +71,12 @@ ggplot(sum.red.knots, aes (Date, total)) +
   geom_line(aes(group = Subsite), colour = "grey50") + 
   geom_point(aes(colour=Subsite))
 
+#wanting to take the lines out or, just have them per year rather than throughout all study years
+sum.red.knots %>%
+  arrange(Date)
+ggplot(sum.red.knots, aes (Date, total)) + 
+  geom_point(aes(colour=Subsite))
+
 sum.red.knots%>%
   arrange(Date)
 g1=ggplot(data=sum.red.knots,aes(x=Date(Y),y=total))+

@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1549565752148.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "892406AE",
+    "lastKnownWriteTime" : 8747528085205885028,
+    "last_content_update" : 1549565752148,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "32A0D490",
+        "caption" : "REKN.wide",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=REKN.wide&cache_key=32A0D490",
+        "displayedObservations" : 97,
+        "environment" : "",
+        "object" : "REKN.wide",
+        "preview" : 0,
+        "totalObservations" : 97,
+        "variables" : 17
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
