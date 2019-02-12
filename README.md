@@ -13,6 +13,7 @@ This is a project examining if there are seasonal patterns within the rufa subsp
 
 ####WEEK 1####
 Basic R commands, library calls, functions, data import. Read csv file in and manipulated some data.
+Using file RK Shorebird Surveys. 
 
 #read csv file in
 RedKnot<-read.csv(file="RK_ShorebirdSurveys.csv",head=TRUE,sep=",")
@@ -65,6 +66,7 @@ plot(tab1)
 plot(RedKnot$Date, tab1$Total, type = "l", color = "dodgerblue4")
 
 ###WEEK 2###
+Using file RK Shorebird Surveys. 
 Mutate/aggregate/summarize, calculated redknot counts/subsite. Trying to arrange by date and plot by year to look at seasonal peaks and determine high peak count per year.
 
 
@@ -131,6 +133,7 @@ View(REKN.wide)
     mutate(total.mean.bay=mean(BayBackshore, na.rm = TRUE))
 
 ###WEEK 3###
+Using file RK Shorebird Surveys. 
 IN PROGRESS -- Plotting data! 
 
 ###WEEK 4###
