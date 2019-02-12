@@ -64,18 +64,40 @@ sum.red.knots %>%
   group_by(Subsite) %>%
   summarise(total=mean(total, na.rm = TRUE))
 
-#still trying to plot 
+#Plotting total REKN counts on the y by date on the x.
+sum.red.knots %>%
+  group_by(Date=2013)%>%
+arrange(Date)
+
+#wanting to take the lines out or, just have them per year rather than throughout all study years
 sum.red.knots %>%
   arrange(Date)
 ggplot(sum.red.knots, aes (Date, total)) + 
   geom_line(aes(group = Subsite), colour = "grey50") + 
   geom_point(aes(colour=Subsite))
 
-sum.red.knots%>%
+#create a new column with lubridate, pull out year from column date, then facet_wrap by year free_x to remove year axis title.
+library(lubridate)
+sum.red.knots$year = year(sum.red.knots$Date)
+sum.red.knots$month = month(sum.red.knots$Date)
+sum.red.knots$day = day(sum.red.knots$Date)
+partial.days =  sum.red.knots$day/31
+sum.red.knots$mday = sum.red.knots$month + partial.days
+
+ggplot(sum.red.knots, aes (mday, total)) +
+  facet_wrap(~year)+
+  geom_line(aes(group = Subsite), colour = "grey50") + 
+  geom_point(aes(colour=Subsite))
+
+#wanting to take the lines out or, just have them per year rather than throughout all study years
+sum.red.knots %>%
   arrange(Date)
-g1=ggplot(data=sum.red.knots,aes(x=Date(Y),y=total))+
-  geom_boxplot()+
-  geom_point(aes(color=Subsite))
+ggplot(sum.red.knots, aes (mday, total)) + 
+  geom_line(aes(group = Subsite), colour = "grey50") + 
+  geom_point(aes(colour=Subsite))
+
+
+
 
 
 
