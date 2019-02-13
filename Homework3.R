@@ -30,7 +30,7 @@ RedKnot<-read.csv(file="RK_ShorebirdSurveys.csv",head=TRUE,sep=",")
 RedKnot$Date <- as.POSIXct(RedKnot$Date, tz = 'EST', '%m/%d/%Y')
 
 #basic calls and calcs for data
-#unique(RedKnot$Subsite)
+unique(RedKnot$Subsite)
 #str(RedKnot)
 #head(RedKnot)
 #tail(RedKnot)
@@ -51,7 +51,8 @@ RedKnot$Subsite[RedKnot$Subsite == "NBO"] <- "NBW"
 RedKnot$Subsite[RedKnot$Subsite == "MUS"] <- "FS"
 RedKnot$Subsite[RedKnot$Subsite == "LFS"] <- "FS"
 RedKnot$Subsite[RedKnot$Subsite == "BONS"] <- "CMF"
-RedKnot$Subsite[RedKnot$Subsite == "MWPF"] <- "NMA"
+#RedKnot$Subsite[RedKnot$Subsite == "MWPF"] <- "NMA" ***NOT RUNNING***
+
 #row sum script
 #rowSums(dat[,c("b", "c")], na.rm=TRUE)
 
@@ -90,7 +91,6 @@ sum.red.knots$year <- as.factor(sum.red.knots$year)
 #creating Julian date column
 sum.red.knots$jdate <- as.numeric(format(sum.red.knots$Date, "%j"))
 
-#Changing column names 
 #Plotting #redknots per month per year by subsite to examine trends and patterns. 
 #Had to change to Julian date, then split each year by facet wrap, added new tick marks and labels.
 #Also would like to change the x and y axis labels AND is there a way to change the aesthetics so points are simply black, and line colors represent different subsites
@@ -103,9 +103,34 @@ sum.red.knots$jdate <- as.numeric(format(sum.red.knots$Date, "%j"))
   ylab("Red Knot Counts")
   
 #Now to plot REKN seen on BaySide vs OceanSide habitats
-  
-  
+##want to know how many redknots for each date per habitat
 
+hab.red.knots = aggregate(total~BayBackshore+Ocean+Date, FUN=sum, data=RedKnot)
+
+#Rearranging data to be consectutive
+hab.red.knots %>%
+  group_by(Date=2013)%>%
+  arrange(Date)
+
+#making year column
+hab.red.knots$year <- substr(hab.red.knots$Date, 1,4)
+hab.red.knots$year <- as.factor(hab.red.knots$year)
+
+#creating Julian date column
+hab.red.knots$jdate <- as.numeric(format(hab.red.knots$Date, "%j"))  
+
+#Need to create 2 different plots; one showing ocean counts and one showing bay counts
+#I want to see two lines on one graph...not two seperate ones! Also thinking I would like to show histogram instead of line graph to represent the data better. Thoughts?
+  ggplot(hab.red.knots) + 
+    geom_line(data=hab.red.knots, aes(x=jdate, y=Ocean, color='Ocean')) +
+    geom_line(data=hab.red.knots, aes(x=jdate, y=BayBackshore, color='BayBackshore')) +
+    scale_x_continuous(breaks = c(121,152,182,213,244,274),labels = c("May 1","June 1","July 1","August 1", "September 1", "October 1")) +
+    facet_wrap(~ year, ncol=2) +
+    xlab("Date")+
+    ylab("Red Knot Counts") +
+    labs(colour="Habitat")
+
+  
 #create a new column with lubridate, pull out year from column date, then facet_wrap by year free_x to remove year axis title.
 #library(lubridate)
 #sum.red.knots$year = year(sum.red.knots$Date)
