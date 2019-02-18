@@ -4,8 +4,8 @@ rm(list=ls())
 RedKnot<-read.csv(file="RK_ShorebirdSurveys.csv",head=TRUE,sep=",")
 
 names(RedKnot)
-#reformatting date as YEAR MONTH DAY.
-RedKnot$Date <- as.POSIXct(strptime(RedKnot$Date, '%Y-%m-%d', tz = 'EST'))
+#reformatting date as YEAR MONTH DAY.(Isn't working for some reason, taking out this chunk)
+#RedKnot$Date <- as.POSIXct(strptime(RedKnot$Date, '%Y-%m-%d', tz = 'EST'))
 
 #install packages 
 #install.packages("ggplot2")
@@ -42,8 +42,7 @@ dim(RedKnot)
 RedKnot$total = rowSums(RedKnot[,c("Ocean","BayBackshore")],na.rm=T)
 
 ##want to know how many redknots for each date per subsite
-sum.red.knots = aggregate(total~Subsite+Date, FUN=sum, data=RedKnot)%>%
-  arrange(Date)
+sum.red.knots = aggregate(total~Subsite+Date, FUN=sum, data=RedKnot)
 
 View(sum.red.knots)
 
