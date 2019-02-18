@@ -60,4 +60,4 @@ View(REKN.wide)
     group_by(Subsite, Date, BayBackshore) %>%
     mutate(total.mean.bay=mean(BayBackshore, na.rm = TRUE))
 
-  
+  #what is the column you are adding? 
