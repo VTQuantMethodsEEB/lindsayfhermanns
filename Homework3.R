@@ -42,6 +42,8 @@ unique(RedKnot$Subsite)
 #RedKnot$total = RedKnot$Ocean+RedKnot$BayBackshore
 RedKnot$total = rowSums(RedKnot[,c("Ocean","BayBackshore")],na.rm=T)
 
+#changing Red Knot Subsite to character
+RedKnot$Subsite <- as.character(RedKnot$Subsite)
 #Account for subsites that have been renamed or changed
 RedKnot$Subsite[RedKnot$Subsite == "HOOK"] <- "DMP"
 RedKnot$Subsite[RedKnot$Subsite == "THL"] <- "DMP"
@@ -51,7 +53,7 @@ RedKnot$Subsite[RedKnot$Subsite == "NBO"] <- "NBW"
 RedKnot$Subsite[RedKnot$Subsite == "MUS"] <- "FS"
 RedKnot$Subsite[RedKnot$Subsite == "LFS"] <- "FS"
 RedKnot$Subsite[RedKnot$Subsite == "BONS"] <- "CMF"
-#RedKnot$Subsite[RedKnot$Subsite == "MWPF"] <- "NMA" ***NOT RUNNING***
+RedKnot$Subsite[RedKnot$Subsite == "MWPF"] <- "NMA"
 
 #row sum script
 #rowSums(dat[,c("b", "c")], na.rm=TRUE)
@@ -82,7 +84,7 @@ sum.red.knots$Date <- as.Date(sum.red.knots$Date, "%y%m%d")
 #Rearranging data to be consectutive
 sum.red.knots %>%
   group_by(Date=2013)%>%
-arrange(Date)
+  arrange(Date)
 
 #making year column
 sum.red.knots$year <- substr(sum.red.knots$Date, 1,4)
@@ -94,14 +96,14 @@ sum.red.knots$jdate <- as.numeric(format(sum.red.knots$Date, "%j"))
 #Plotting #redknots per month per year by subsite to examine trends and patterns. 
 #Had to change to Julian date, then split each year by facet wrap, added new tick marks and labels.
 #Also would like to change the x and y axis labels AND is there a way to change the aesthetics so points are simply black, and line colors represent different subsites
-  ggplot(sum.red.knots, aes(jdate, total)) + 
+ggplot(sum.red.knots, aes(jdate, total)) + 
   geom_line(aes(group = Subsite), colour = "grey50") + 
   geom_point(aes(colour = Subsite)) +
   scale_x_continuous(breaks = c(121,152,182,213,244,274),labels = c("May 1","June 1","July 1","August 1", "September 1", "October 1")) +
   facet_wrap(~ year, ncol=2) +
   xlab("Date")+
   ylab("Red Knot Counts")
-  
+
 #Now to plot REKN seen on BaySide vs OceanSide habitats
 ##want to know how many redknots for each date per habitat
 
@@ -121,16 +123,16 @@ hab.red.knots$jdate <- as.numeric(format(hab.red.knots$Date, "%j"))
 
 #Need to create 2 different plots; one showing ocean counts and one showing bay counts
 #I want to see two lines on one graph...not two seperate ones! Also thinking I would like to show histogram instead of line graph to represent the data better. Thoughts?
-  ggplot(hab.red.knots) + 
-    geom_line(data=hab.red.knots, aes(x=jdate, y=Ocean, color='Ocean')) +
-    geom_line(data=hab.red.knots, aes(x=jdate, y=BayBackshore, color='BayBackshore')) +
-    scale_x_continuous(breaks = c(121,152,182,213,244,274),labels = c("May 1","June 1","July 1","August 1", "September 1", "October 1")) +
-    facet_wrap(~ year, ncol=2) +
-    xlab("Date")+
-    ylab("Red Knot Counts") +
-    labs(colour="Habitat")
+ggplot(hab.red.knots) + 
+  geom_line(data=hab.red.knots, aes(x=jdate, y=Ocean, color='Ocean')) +
+  geom_line(data=hab.red.knots, aes(x=jdate, y=BayBackshore, color='BayBackshore')) +
+  scale_x_continuous(breaks = c(121,152,182,213,244,274),labels = c("May 1","June 1","July 1","August 1", "September 1", "October 1")) +
+  facet_wrap(~ year, ncol=2) +
+  xlab("Date")+
+  ylab("Red Knot Counts") +
+  labs(colour="Habitat")
 
-  
+
 #create a new column with lubridate, pull out year from column date, then facet_wrap by year free_x to remove year axis title.
 #library(lubridate)
 #sum.red.knots$year = year(sum.red.knots$Date)
