@@ -7,6 +7,8 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+###FROM KEL: See updated handout and instructions for README. This file should just contain a week by week log of what files you used and generally what you did. You don't need to include any code. Can you update this with those changes? Thanks!
+
 ## Red Knot Abundance on Fire Island
 
 This is a project examining if there are seasonal patterns within the rufa subspecies of red knot, and if there is preference for red knots using habitat, on Fire Island (bayside habitat vs. oceanside habitat). I would also like to use resight data to describe mean stopover time at Fire Island. Data was collected from Virginia Tech Shorebird lab 2013-2016 by conducting transect surveys and counting different observed shorebird species. Resight data was collected by Virginia Tech Shorebird lab from 2013-2018.
