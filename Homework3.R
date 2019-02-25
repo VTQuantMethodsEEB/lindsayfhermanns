@@ -142,6 +142,19 @@ ggplot(hab.red.knots) +
   labs(colour="Habitat")
 
 
+##create ocean dataframe
+names(RedKnot)
+bay = RedKnot[-13]
+ocean = RedKnot[-14]
+dim(bay)
+dim(ocean)
+bay$habitat = "BayBackshore"
+ocean$habitat = "Ocean"
+names(ocean[13]) = "Count"
+names(bay[13]) = "Count"
+
+RedKnot2 = rbind(bay,ocean)
+
 #create a new column with lubridate, pull out year from column date, then facet_wrap by year free_x to remove year axis title.
 #library(lubridate)
 #sum.red.knots$year = year(sum.red.knots$Date)
