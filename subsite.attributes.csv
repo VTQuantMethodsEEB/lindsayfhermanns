@@ -1,0 +1,44 @@
+Subsite,Longitude,Latitude,Habitat type,Transect,Count,size.index(m),Length(ft),Length(m),Perimeter(ft),Perimeter(m),Area(sq_ft),Area(sq_m),Management
+BRE,-72.832031,40.738687,Beach,bay,no,0,,0,,0,,0,Smith Point County Park
+BRE,-72.832031,40.738687,Beach,ocean,yes,2784.9576,9137,2784.9576,,0,,0,Smith Point County Park
+BRO,-72.871015,40.730643,Overwash,bay,yes,317.2968,1041,317.2968,,0,,0,Otis Pike Wilderness Area
+BRO,-72.871015,40.730643,Overwash,ocean,yes,689.1528,2261,689.1528,,0,,0,Otis Pike Wilderness Area
+BRW,-72.877857,40.72829,Beach,bay,no,0,,0,,0,,0,Otis Pike Wilderness Area
+BRW,-72.877857,40.72829,Beach,ocean,yes,592.2264,1943,592.2264,,0,,0,Otis Pike Wilderness Area
+CMF,-72.73522,40.776884,Mud flat,mudflat,yes,2837.0784,,0,9308,2837.0784,2515100,233660.4359,Cupsoque County Park
+CSB,-72.742916,40.771035,Sand bar,sandflat,yes,1629.156,,0,5345,1629.156,1434736,133291.336,Cupsoque County Park
+CSE,-72.739013,40.769758,Beach,bay,yes,906.78,2975,906.78,,0,,0,Cupsoque County Park
+CSE,-72.739013,40.769758,Beach,ocean,yes,1340.8152,4399,1340.8152,,0,,0,Cupsoque County Park
+CSW,-72.745444,40.766284,Filled breach,bay,yes,427.6344,1403,427.6344,,0,,0,Cupsoque County Park
+CSW,-72.745444,40.766284,Filled breach,ocean,yes,737.0064,2418,737.0064,,0,,0,Cupsoque County Park
+FS,-72.901827,40.725689,Flood shoals,sandflat,yes,2259.1776,,0,7412,2259.1776,1319030,122541.8969,Otis Pike Wilderness Area
+HOOK,-73.313205,40.627178,Inlet,bay,yes,635.8128,2086,635.8128,,0,,0,Robert Moses State Park
+HOOK,-73.313205,40.627178,Inlet,ocean,yes,451.7136,1482,451.7136,,0,,0,Robert Moses State Park
+MTP,-73.29083,40.624449,Sand stock pile,bay,yes,1045.1592,3429,1045.1592,,0,,0,Robert Moses State Park
+MTP,-73.29083,40.624449,Sand stock pile,ocean,no,0,,0,,0,,0,Robert Moses State Park
+MWPF,-72.803528,40.751805,Filled dredge spoil,bay,yes,165.5064,543,165.5064,,0,,0,Smith Point County Park
+MWPF,-72.803528,40.751805,Filled dredge spoil,ocean,yes,670.8648,2201,670.8648,,0,,0,Smith Point County Park
+NBE,-72.798354,40.753207,Overwash,bay,yes,593.7504,1948,593.7504,,0,,0,Smith Point County Park
+NBE,-72.798354,40.753207,Overwash,ocean,yes,803.7576,2637,803.7576,,0,,0,Smith Point County Park
+NBW,-72.81226,40.750171,Overwash and filled breach,bay,yes,506.5776,1662,506.5776,,0,,0,Smith Point County Park
+NBW,-72.81226,40.750171,Overwash and filled breach,ocean,yes,608.6856,1997,608.6856,,0,,0,Smith Point County Park
+OIE,-72.887185,40.726068,Overwash and inlet,bay,yes,243.84,800,243.84,,0,,0,Otis Pike Wilderness Area
+OIE,-72.887185,40.726068,Overwash and inlet,ocean,yes,1217.3712,3994,1217.3712,,0,,0,Otis Pike Wilderness Area
+OIW,-72.899837,40.724621,Overwash and inlet,bay,yes,674.8272,2214,674.8272,,0,,0,Otis Pike Wilderness Area
+OIW,-72.899837,40.724621,Overwash and inlet,ocean,yes,603.1992,1979,603.1992,,0,,0,Otis Pike Wilderness Area
+OIWR,-72.919164,40.715455,Beach and overwash,bay,no,0,,0,,0,,0,Otis Pike Wilderness Area
+OIWR,-72.919164,40.715455,Beach and overwash,ocean,yes,2418.588,7935,2418.588,,0,,0,Otis Pike Wilderness Area
+PSE,-72.821308,40.746275,Beach,bay,no,0,,0,,0,,0,Smith Point County Park
+PSE,-72.821308,40.746275,Beach,ocean,yes,773.8872,2539,773.8872,,0,,0,Smith Point County Park
+PSO,-72.831433,40.744249,Overwash,bay,yes,1876.044,6155,1876.044,,0,,0,Smith Point County Park
+PSO,-72.831433,40.744249,Overwash,ocean,yes,1036.0152,3399,1036.0152,,0,,0,Smith Point County Park
+SPTE,-72.768582,40.759924,Beach,ocean,yes,1850.136,6070,1850.136,,0,,0,Smith Point County Park
+SPTE,-72.768582,40.759924,Filled dredge spoil,bay,yes,1980.8952,6499,1980.8952,,0,,0,Smith Point County Park
+SPTW,-72.787233,40.756065,Beach,bay,no,0,,0,,0,,0,Smith Point County Park
+SPTW,-72.787233,40.756065,Beach,ocean,yes,1544.1168,5066,1544.1168,,0,,0,Smith Point County Park
+THL,-73.307395,40.626048,Mature dunes and inlet,bay,yes,1959.5592,6429,1959.5592,,0,,0,Robert Moses State Park
+THL,-73.307395,40.626048,Mature dunes and inlet,ocean,yes,1307.2872,4289,1307.2872,,0,,0,Robert Moses State Park
+WHD,,,,bay,no,0,,0,,0,,0,
+WHD,,,,ocean,no,0,,0,,0,,0,
+WHL,,,,bay,no,0,,0,,0,,0,
+WHL,,,,ocean,no,0,,0,,0,,0,
