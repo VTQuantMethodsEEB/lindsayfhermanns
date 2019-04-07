@@ -46,4 +46,13 @@ Used a welches t test because my data are normally distributed but the variance 
 We got a p-value = 0.001724, p<0.05, so we can reject our null and conclude there is a significant difference in counts at the mudflats vs. counts at the ocean. 
 
 ###Week 6###
+RK_Shorebird_Count_2010.csv code=Week 6 Homework.R
+Psuedo data and determining which 
+I used the same parameters as my data -- 243 obs, and after fitting the data,found my k parameter
+#and the mu of my data 10.309, and used those to make a psuedo-data set.The data somewhat has a similar trend as my data, but not exactly the same.
+#The data doesn't look the same although the more iterations or random draws I performed using my initial data paramaters the histogram would look more similar to my initial data (with more repitions)
 
+###Week 8&&9###
+
+Linear models (lm and glm) functions. REKN_J.data.2016.data.2014.2016.csv code=Homework8.9.R
+Attempted to plot iteractive models and us lsmeans to examine any significant differences between habitat types and year (modeling count througout each) and also examining habitat length effect on total REKN observed. Flood shoals showed a significant effect on total counts. I had a difficult time plotting my interractive model... 
