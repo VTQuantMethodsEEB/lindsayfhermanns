@@ -104,6 +104,7 @@ ggplot(sum.red.knots, aes(jdate, total)) +
   facet_wrap(~ year, ncol=2) +
   xlab("Date")+
   ylab("Red Knot Counts")
+#this is a bit hard to see - logging might make easier!
 
 #Population data may be better represented by box plot##in progress##
 ggplot(sum.red.knots, aes(jdate, total))+
@@ -113,6 +114,9 @@ scale_x_continuous(breaks = c(121,152,182,213,244,274),labels = c("May 1","June 
   facet_wrap(~ year, ncol=2) +
   xlab("Date")+
   ylab("Red Knot Counts")
+
+#should this show something?
+
 ####Now to plot REKN seen on BaySide vs OceanSide habitats
 ####want to know how many redknots for each date per habitat
 
