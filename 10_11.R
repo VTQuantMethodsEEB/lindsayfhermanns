@@ -1,3 +1,15 @@
+#Make a generalized linear model (preferably with more than one variable) for one of your hypotheses. Articulate which hypothesis you are testing.
+#Explain what the R output is telling you about your data, in relation to your hypothesis.
+#(Hint: you can use lsmeans, effects, relevel, or predict to help you.) You should include this explanation in either your README or in your code.
+#Plot your model (e.g. using predict) and overlay the model on top of the underlying data. Remember that you will need to use “type=response”.
+#Write a results statement (as you would in a scientific paper). If you need to reference a statistical table, you can include this result statement and table as a separate word doc that you upload to canvas titled “LASTNAME_week10_results”
+#You will turn in this assignment in two weeks with model comparisons.
+#  Week 11
+#1. Use likelihood ratio tests and one other model selection approach to test at least 3 models of your data.
+#The models can be LMs or GLMs that you have already tested.
+#2. Explain what the results are telling you for each approach.
+#3. Include a synthesis statement on how the output of each approach is similar or different in your code. Remember to update your README and annotate your code.
+#
 #clear workspace
 rm(list=ls())
 ########################################
@@ -68,7 +80,7 @@ RedKnot["Habitat.length"] <- NA
 ##Modifying Habitat to match data set attribute## 
 RedKnot[which(RedKnot$Subsite == "CSB"),7] = "Cupsogue Flood Shoals"
 RedKnot[which(RedKnot$Subsite == "FS"),7] = "Old Inlet Flood Shoals"
-RedKnot[which(RedKnot$Subsite == "CMF"),7] = "Cupsogue Mudflat"
+#RedKnot[which(RedKnot$Subsite == "CMF"),7] = "Cupsogue Mudflat"
 ###Add column of subsite length
 RedKnot["Habitat.length"] <- NA
 ###Write function in R to say where habitat column AND subsite column is = to x and x, populate column "length" with "y"
@@ -134,7 +146,7 @@ rd_2016 <- filter(RedKnot, Year == "2016") %>%
   mutate(density_16 = Total / (Habitat.length/1000)) %>%
   select(-c(Species, Site, Year)) %>%
   rename(date_16 = Date) %>%
- rename(subsite_16 = Subsite) %>%
+  rename(subsite_16 = Subsite) %>%
   rename(total_16 = Total) %>%
   rename(habitat_length_16 = Habitat.length)
 
@@ -164,17 +176,20 @@ rd_all <- full_join(rd_all, rd_2014, by = c("Survey","Habitat"))
 #rd_all <- left_join(rd_2015, rd_2016, by = c("Survey", "Habitat"))
 #rd_all <- left_join(rd_all, rd_2014, by = c("Survey", "Habitat"))
 
-ggplot(rd_all, aes(Survey, density_16, color = Habitat))+
-  geom_point(cex = 6, pch=21)+
-  geom_point(aes(Survey, density_15, color = Habitat), cex = 6, pch=5)+
-  geom_point(aes(Survey, density_14, color = Habitat), cex = 6, pch=3)
+hist(RedKnot$Total)
+var(RedKnot$Total)
 
-#####################
-###ANOVA on Survey Period###
-# Compute the analysis of variance
-survey.aov <- aov(Total ~ Survey, data = RedKnot)
-# Summary of the analysis
-summary(survey.aov)
-#Check residuals vs fitted
-plot(survey.aov, 1)
+###AIC first##
+#the formula for AIC is very simple
+#2*number of parameters - 2 ln(lik)
+h1 = glm(Total~Habitat*Habitat.length,data = RedKnot, family = poisson)#is habitat type*habitat length 
+h2 = glm(Total~Habitat+Habitat.length,data = RedKnot, family = poisson)
+h3 = glm(Total~Habitat*Year,data = RedKnot, family = poisson)
+h4 = glm(Total~1,data = RedKnot, family = poisson)
+#simple version
+AIC(h1,h2,h3,h4)
 
+#tabular
+aictab(cand.set=list(h1,h2,h3,h4),modnames=c("h1","h2","h3","h4"))#AIC table
+summary(h3)
+#this function will give a nice AIC table, but calculating weights and delta AIC is very straightforward
