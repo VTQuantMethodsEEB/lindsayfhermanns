@@ -56,3 +56,18 @@ I used the same parameters as my data -- 243 obs, and after fitting the data,fou
 
 Linear models (lm and glm) functions. REKN_J.data.2016.data.2014.2016.csv code=Homework8.9.R
 Attempted to plot iteractive models and us lsmeans to examine any significant differences between habitat types and year (modeling count througout each) and also examining habitat length effect on total REKN observed. Flood shoals showed a significant effect on total counts. I had a difficult time plotting my interractive model... 
+
+###Week 10&11###
+GLM and Model Selection REKN_J.data.2016.data.2014.2016.csv and subsite.attributes.csv code=Homework10.11.R
+I attempted to run GLM to examine the effects Total number of red knots observed by Period and Year,and, Total number of birds observed by Habitat type and survey period (aka, spring migration period or fall migration period). H0: Total number of birds was not significantly effected between years and periods. H1: There was an effect of year and period on total number of birds. For this circumstance we rejected the null as there was a significant effect of year on total number of birds seen. I also compared total counts of redknots between Habitat types  and periods. H0: No significant effect between habitat types and periods on total number of birds. H1: There is an effect on totals by habitat types and survey periods. We rejected the null in this instance as well. I had some difficulties understanding and interpretting the data, although I did get my models to run. Maybe you can give me some feedback as to how to best examine the results? Also expand grid, although I got it to work, and added the new data to my redknot dataframe, I wasn't sure I was plotting the correct predicted data over the entirety of my data.
+For model selections, the top model was Habitat*Period. I think the GLM and AIC approach both show similar results: that Habitat*Period have significance within the model. The AIC and anova model comparisons ranking Habitat*Period to be the best fitting model, and, when I run this model, I get significant results as well of effect of habitat and year on totals.
+
+Week 12
+GLM and Model Selection REKN_J.data.2016.data.2014.2016.csv and subsite.attributes.csv code=Homework10.11.R
+Looked at fixed and random effects within my data set. I was interested in exploring the hypothesis that survey and habitat type had significant effects on total birds seen. I attempted to set my fixed effects and random effects. My subsites were set as a random effect, because I wanted to account for variability among subsites. My fixed effects were Habitat and Survey, because I was interested in the effects of these (accounting for my random effect). I was able to run my first model, but not my second. 
+Within my first model, it would seem that Survey and Habitat both had significant effects on Total number of birds, with p values being 0.0031051 and 0.0001072 respectively.   
+Survey  47.270 24  0.0031051 ** 
+Habitat 23.363  4  0.0001072 ***
+Also, Habitat Cupsogue flood shoals was the only habitat that had any significant effect on totals (which is what I have been finding consistently) with intercept of 1.054e+00 and a p-value of 0.03278.
+
+
