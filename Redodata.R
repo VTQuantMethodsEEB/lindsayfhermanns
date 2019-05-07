@@ -34,6 +34,7 @@ library(lubridate)
 Habitat <-read.csv("subsite.attributes.csv")
 RedKnot <-read.csv("REKN_J.data.2016.data.2014.2016.csv")
 
+#######################CLEANING THE DATA
 #changing RedKnot Subsite and column and to character
 RedKnot$Subsite <- as.character(RedKnot$Subsite)
 Habitat$Subsite <- as.character(Habitat$Subsite)
@@ -164,17 +165,32 @@ rd_all <- full_join(rd_all, rd_2014, by = c("Survey","Habitat"))
 #rd_all <- left_join(rd_2015, rd_2016, by = c("Survey", "Habitat"))
 #rd_all <- left_join(rd_all, rd_2014, by = c("Survey", "Habitat"))
 
+#####################FIGURES#######################
+#Plot Density by survey and habitat
 ggplot(rd_all, aes(Survey, density_16, color = Habitat))+
   geom_point(cex = 6, pch=21)+
   geom_point(aes(Survey, density_15, color = Habitat), cex = 6, pch=5)+
-  geom_point(aes(Survey, density_14, color = Habitat), cex = 6, pch=3)
+  geom_point(aes(Survey, density_14, color = Habitat), cex = 6, pch=3)+
+  ylab("Red Knot Density")+
+  xlab("Survey")+
+  theme_classic()
+#Plot Counts by survey
+ggplot(data=RedKnot,aes(x=Survey,y=Total))+
+  geom_bar(stat = "identity")+
+  facet_wrap(~Year, ncol=3)+ #this is creating multiple "panels" for site
+  scale_x_continuous(breaks = c(1 , 5, 10, 15, 20, 25, 30), labels = c("1", "5", "10", "15", "20", "25", "30"))+
+  #scale_x_continuous(breaks = c(121,152,182,213,244,274),labels = c("May 1","June 1","July 1","August 1", "September 1", "October 1")) +
+  xlab("Survey")+
+  ylab("Red Knot Counts")+
+  theme_classic()
 
-#####################
 ###ANOVA on Survey Period###
-# Compute the analysis of variance
+# Compute the analysis of variance on whether survey has effect on total number seen.
 survey.aov <- aov(Total ~ Survey, data = RedKnot)
 # Summary of the analysis
 summary(survey.aov)
 #Check residuals vs fitted
 plot(survey.aov, 1)
 
+density.aov <- aov(density_all~Survey, data = RedKnot)
+summary(density.aov)
