@@ -1,9 +1,8 @@
 #clear workspace
 rm(list=ls())
 ########################################
-#Make a univariate linear model for one of your hypotheses
-#Examine the assumptions of linearity (using tests or diagnostic plots)
-#Plot the relationship in ggplot using stat_smooth
+#Install packages
+########################################
 #install packages 
 #install.packages("ggplot2")
 #install.packages("tidyverse")
@@ -30,13 +29,18 @@ library(officer)
 library(plotly)
 library(lubridate)
 
+########################################
 #Read in CSV files.
+########################################
 Habitat <-read.csv("subsite.attributes.csv")
 RedKnot <-read.csv("REKN_J.data.2016.data.2014.2016.csv")
 
-#######################CLEANING THE DATA
+########################################
+#Cleaning the data
+########################################
 #changing RedKnot Subsite and column and to character
 RedKnot$Subsite <- as.character(RedKnot$Subsite)
+RedKnot$Habitat <- as.character(RedKnot$Habitat)
 Habitat$Subsite <- as.character(Habitat$Subsite)
 
 #Account for subsites that have been renamed or changed in RedKnot and Survey.Density files 
@@ -60,22 +64,17 @@ Habitat$Subsite[Habitat$Subsite == "LFS"] <- "FS"
 Habitat$Subsite[Habitat$Subsite == "BONS"] <- "CMF"
 Habitat$Subsite[Habitat$Subsite == "MWPF"] <- "NMA"
 
-###Add column of subsite length
-###Write function in R to say where habitat column AND subsite column is = to x and x, populate column "length" with "y"
-##Length values pulled from habitat.attributes CSV/google earth measure tool
-RedKnot["Habitat.length"] <- NA
-#RedKnot["Date"] <- as.Date(NA)
+#Modifying Habitat to match data set attributes, calling CSB and FS as Habitat = Flood Shoals  
+RedKnot[which(RedKnot$Subsite == "CSB"),7] = "Flood Shoals"
+RedKnot[which(RedKnot$Subsite == "FS"),7] = "Flood Shoals"
+RedKnot[which(RedKnot$Subsite == "CMF"),7] = "Mudflat"
 
-##Modifying Habitat to match data set attribute## 
-RedKnot[which(RedKnot$Subsite == "CSB"),7] = "Cupsogue Flood Shoals"
-RedKnot[which(RedKnot$Subsite == "FS"),7] = "Old Inlet Flood Shoals"
-RedKnot[which(RedKnot$Subsite == "CMF"),7] = "Cupsogue Mudflat"
-###Add column of subsite length
+#Add column of subsite length
 RedKnot["Habitat.length"] <- NA
-###Write function in R to say where habitat column AND subsite column is = to x and x, populate column "length" with "y"
-##Length values pulled from habitat.attributes CSV/google earth measure tool
 
-RedKnot[which(RedKnot$Subsite == "CSB" & RedKnot$Habitat == "Cupsogue Flood Shoals"),9] = 764.59
+#Write function in R to say where habitat column AND subsite column is = to x and x, populate column "length" with "y"
+#Length values pulled from habitat.attributes CSV/google earth measure tool
+RedKnot[which(RedKnot$Subsite == "CSB" & RedKnot$Habitat == "Flood Shoals"),9] = 764.59
 RedKnot[which(RedKnot$Subsite ==  "OIW" & RedKnot$Habitat == "BOTH"),9] = 1278.0264
 RedKnot[which(RedKnot$Subsite ==  "CMF"),9] = 774.43
 RedKnot[which(RedKnot$Subsite == "CSE" & RedKnot$Habitat == "Bay"),9] = 906.78
@@ -94,15 +93,103 @@ RedKnot[which(RedKnot$Subsite == "SPTE" & RedKnot$Habitat == "Ocean"),9] = 1850.
 RedKnot[which(RedKnot$Subsite == "SPTE" & RedKnot$Habitat == "BOTH"),9] = 3831.0312
 RedKnot[which(RedKnot$Subsite == "SPTE" & RedKnot$Habitat == "Backshore"),9] = 1850.136
 
+#Convert year to numeric
+RedKnot$year = as.numeric(as.character(RedKnot$Year))
+#New data frame in case of imminent disaster 
+RedKnot2 <- RedKnot
+head(RedKnot2)
 
-##utility function for pretty printing (thanks Kate this is handy)
-pr <- function(m) printCoefmat(coef(summary(m)),
-                               digits=3,signif.stars=FALSE)
+#Example data for expanding 
+#surveys = c(1, 1, 3, 1, 2, 4, 5)  
+#year = c(2010, 2010, 2010, 2011, 2011, 2011, 2011)
+#habitat = c("a", "b", "c", "a", "b", "d", "e")
+#df = tibble(surveys, year, habitat)
 
-## Simple models
-head(RedKnot)
-RedKnot$Year <- as.factor(RedKnot$Year)
-RedKnot$Year
+#Expanding data to account for each survey, and habitat type covered each survey, for each year of the study  
+RedKnotFull = RedKnot2 %>% complete(year = full_seq(year, 1), Survey = 1:30, Habitat)
+
+#Populating NA's correctly, Site = FNS, keep NA's for Totals
+#x[is.na(x)] <- 0
+RedKnotFull$Total[is.na(RedKnotFull$Total)] <- 0
+
+#Mutate to add column of Spring/Fall surveys based on peaks, and, add density column
+RedKnotFull <- RedKnotFull %>%
+  mutate(Period = if_else(Survey >= 11, 'Fall', 'Spring'))
+RedKnotFull <- RedKnotFull %>%
+  mutate(density_all = Total / (Habitat.length/1000))
+
+#####################TESTS#######################
+#Shapiro-Wilk Test
+#Are our data normally distributed?
+#The null hypothesis is that the data are normally distributed
+#P<0.05 indicates NOT normal
+swt<-shapiro.test(RedKnotFull$Total)
+swt
+
+#A P-value < 0.05 indicates that data are not normally distributed
+swt_d<-shapiro.test(RedKnotFull$density_all)
+swt_d
+
+#both datasets I want to analyze are either poisson or negative binomial distributed.
+hist(RedKnotFull$Total)
+hist(RedKnotFull$density_all)
+
+#####################MODELS#######################
+#Looking to examine any significant differences between survey and totals, and habitat type and totals,
+#survey and density, and habitat type and density
+###AIC first##
+#the formula for AIC is very simple
+#2*number of parameters - 2 ln(lik)
+h1 = glm(Total~Habitat, data = RedKnotFull, family = poisson)
+h2 = glm(Total~Survey,data = RedKnotFull, family = poisson)
+h3 = glm(Total~1,data = RedKnotFull, family = poisson)
+summary(h1)
+summary(h2)
+summary(h3)
+AIC(h1,h2,h3)
+h4 = glm(density_all ~Habitat, data = RedKnotFull, family = poisson)
+h5 = glm(density_all ~Survey, data = RedKnotFull, family = poisson)
+h6 = glm(density_all~1,data = RedKnotFull, family = poisson)
+#simple version
+AIC(h4,h5,h6)
+
+#tabular
+aictab(cand.set=list(h1,h2,h3,h4),modnames=c("h1","h2","h3","h4"))#AIC table
+summary(h3)
+
+
+#summary(RedKnotFull$year)
+#rekn.nb <- glmer.nb(Total ~ Survey, (1|Subsite), data=RedKnotFull)
+#rekn.nb1 <- glmer.nb(density_all ~ Survey, (1|Subsite), data=RedKnotFull)
+#rekn.nb2 <- glmer.nb(Total ~ Habitat, (1|Subsite), data=RedKnotFull)
+#rekn.nb3 <- glmer.nb(density_all ~ Habitat, (1|Subsite), data=RedKnotFull)
+
+#look at mixed model
+#summary(m.nb)
+#t.value = 13.02
+#p.value = 2*pt(t.value, df = 161, lower=FALSE)
+
+#####################FIGURES#######################
+#Plot Density by survey and habitat
+ggplot(RedKnotFull, aes(Survey, density_all, color = Habitat))+
+  geom_point(cex = 2, pch=19)+
+  ylab("Red Knot Density")+
+  xlab("Survey")+
+  theme_classic()
+#Plot Counts by survey
+ggplot(data=RedKnotFull,aes(x=Survey,y=Total))+
+  geom_bar(stat = "identity")+
+  facet_wrap(~year, ncol=3)+ #this is creating multiple "panels" for site
+  scale_x_continuous(breaks = c(1 , 5, 10, 15, 20, 25, 30), labels = c("1", "5", "10", "15", "20", "25", "30"))+
+  #scale_x_continuous(breaks = c(121,152,182,213,244,274),labels = c("May 1","June 1","July 1","August 1", "September 1", "October 1")) +
+  xlab("Survey")+
+  ylab("Red Knot Counts")+
+  theme_classic()
+
+#Finding duplicates 
+#which(duplicated(RedKnotFull[,1:3]) == TRUE)
+#RedKnotFull[which(duplicated(RedKnotFull[,1:3]) == TRUE),]
+
 
 #Create Julian date period for surveys based on 2016 survey dates.
 #Filter for rows with "2016"
@@ -119,12 +206,8 @@ RedKnot$Year
 #a2 = aggregate(Jdate~Survey, FUN=max, data=Densities)
 #cbind(a1, a2)
 #need to try to get min and max and extrapolate them to data set to say, each survey period fell between x and x date
-#so I can show in figure##STILL WORKING ON 
 
 ##Seperating Spring and fall
-
-RedKnot <- RedKnot %>%
-  mutate(Period = if_else(Survey >= 11, 'Fall', 'Spring'))
 
 ###Densities### 
 #Get 2016, 2015, 2014 max Densities
@@ -138,6 +221,9 @@ rd_2016 <- filter(RedKnot, Year == "2016") %>%
  rename(subsite_16 = Subsite) %>%
   rename(total_16 = Total) %>%
   rename(habitat_length_16 = Habitat.length)
+
+
+
 
 rd_2015 <- filter(RedKnot, Year == "2015") %>% 
   arrange(Survey) %>% 
@@ -185,9 +271,18 @@ ggplot(data=RedKnot,aes(x=Survey,y=Total))+
   theme_classic()
 
 ###ANOVA on Survey Period###
-# Compute the analysis of variance on whether survey has effect on total number seen.
-survey.aov <- aov(Total ~ Survey, data = RedKnot)
+#fitting the data to figure out which tests I can run I know my data is negative binomial distribution --not normally distributed
+RedKnot$Survey <- as.factor(RedKnotFull$Survey)
+rd_2014$Survey <- as.factor(rd_2014$Survey)
+# Compute the analysis of variance on whether survey has effect on total number seen. By year or by combined?
+survey.glm <- glm(Total ~ Survey, family=poisson, data = RedKnotFull)
+summary(survey.glm)
+
+survey.all.aov.total <- aov(Total ~ Survey, data = RedKnotFull)
+
+survey.aov <- aov(total_14 ~ Survey, data = rd_2014)
 # Summary of the analysis
+summary(survey.all.aov.total)
 summary(survey.aov)
 #Check residuals vs fitted
 plot(survey.aov, 1)
