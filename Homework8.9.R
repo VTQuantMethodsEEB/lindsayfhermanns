@@ -113,6 +113,8 @@ pr(lm1 <- lm(Total~Habitat, data = RedKnot))
 pr(lm0 <- lm(Total~Habitat-1,data=RedKnot))
 #now, these models are the values of the variables rather than the differences
 ##So now both flood shoal  habitats are showing significant effect on count
+#no this is showing the effect and the p-values reflect differences from 0
+
 ##Predict
 #my go to:
 predict(lm1,newdata=data.frame(Habitat=c("Bay", "Backshore", "Ocean", "Cupsogue Flood Shoals", "Old Inlet Flood Shoals")),
